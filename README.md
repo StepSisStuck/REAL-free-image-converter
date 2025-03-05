@@ -1,10 +1,10 @@
-# Free Image Converter
+# REAL Free Image Converter
 
 Sometimes you just need to convert a file (like a TIFF to PNG) without all the hassle—especially when converting websites hide behind paywalls or claim to delete your files, leaving you wondering: "How sure are you?" This project was born out of frustration with these sketchy setups.
 
 ## What Is It?
 
-Free Image Converter is a simple, client-side web application that allows you to convert various image formats (TIFF, PSD, ICO, PDF, and more) into common formats like PNG, JPEG, or WEBP directly in your browser. All processing is done on your device, so your files never leave your computer.
+ REAL Free Image Converter is a simple, client-side web application that allows you to convert various image formats (TIFF, PSD, ICO, PDF, and more) into common formats like PNG, JPEG, or WEBP directly in your browser. All processing is done on your device, so your files never leave your computer.
 
 ## Why Use It?
 
@@ -30,7 +30,7 @@ Free Image Converter is a simple, client-side web application that allows you to
 ## Demo
 
 You can check out a live demo of the converter here:  
-[Free Image Converter](https://stepsisstuck.github.io/free-image-converter/)
+[REAL Free Image Converter](https://stepsisstuck.github.io/REAL-free-image-converter/)
 
 ## How to Use
 
@@ -51,7 +51,7 @@ You can check out a live demo of the converter here:
 
 ## Why This Converter?
 
-Many online converters process your files on remote servers, leaving you with privacy concerns—even if they claim to delete your files afterward. With Free Image Converter, everything is done locally. This means:
+Many online converters process your files on remote servers, leaving you with privacy concerns—even if they claim to delete your files afterward. With REAL Free Image Converter, everything is done locally. This means:
   
 - **Total Privacy:** Your files never leave your device.
 - **Trust & Transparency:** No data is sent to any external server.
@@ -60,7 +60,7 @@ Many online converters process your files on remote servers, leaving you with pr
 ## Contributing
 
 Contributions, suggestions, and bug reports are welcome!  
-If you have an idea or notice something that could be improved, please [submit an issue](https://github.com/StepSisStuck/free-image-converter/issues).
+If you have an idea or notice something that could be improved, please [submit an issue](https://github.com/StepSisStuck/REAL-free-image-converter/issues).
 
 ## License
 
