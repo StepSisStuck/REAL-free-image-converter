@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Image Converter</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Font -->
+ </head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Advanced Image Converter</h1>
+      <p>
+        Convert images between formats including PNG, JPEG, WEBP, TIFF, PSD, ICO, and PDF (all pages).
+      </p>
+    </header>
+  
+    <main>
+      <section class="input-section">
+        <div class="form-group">
+          <label for="fileInput">Select image files:</label>
+          <input type="file" id="fileInput" accept="image/*,.tif,.tiff,.psd,.ico,.pdf" multiple>
+        </div>
+  
+        <div class="form-group">
+          <label for="outputFormat">Output Format:</label>
+          <select id="outputFormat">
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/png">PNG</option>
+            <option value="image/webp">WEBP</option>
+          </select>
+        </div>
+  
+        <div class="form-group" id="qualityContainer">
+          <label for="qualitySlider">
+            Quality (for JPEG/WEBP): <span id="qualityValue">0.8</span>
+          </label>
+          <input type="range" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.8">
+        </div>
+  
+        <button id="convertButton" disabled>Convert Images</button>
+      </section>
+  
+      <section id="conversionResults" class="results-section"></section>
+  
+      <section class="download-section">
+        <a id="downloadLink" style="display: none;">Download Converted File</a>
+      </section>
+    </main>
+  </div>
+  
+  <!-- Hidden canvas for processing -->
+  <canvas id="canvas" style="display: none;"></canvas>
+  
+  <!-- External Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://unpkg.com/utif@2.0.1/UTIF.min.js"></script>
+  <script src="https://unpkg.com/psd.js@3.0.0/dist/psd.min.js"></script>
+  <script src="https://unpkg.com/icojs@1.0.0/dist/ico.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>
+    // Configure pdf.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+  </script>
+  
+  <!-- Main Script -->
+  <script src="script.js"></script>
+</body>
+</html>
