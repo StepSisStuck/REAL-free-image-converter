@@ -64,7 +64,7 @@ If you have an idea or notice something that could be improved, please [submit a
 
 ## License
 
-This project is released under the MIT License.
+This project is released under the APACHE 2.0 License.
 
 ---
 
