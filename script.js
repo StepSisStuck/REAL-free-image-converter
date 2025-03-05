@@ -8,13 +8,15 @@ const conversionResults = document.getElementById('conversionResults');
 const downloadLink = document.getElementById('downloadLink');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const conversionSpinner = document.getElementById('conversionSpinner');
+const conversionAlert = document.getElementById('conversionAlert');
 
 // Update quality label when slider changes
 qualitySlider.addEventListener('input', () => {
   qualityValueSpan.textContent = qualitySlider.value;
 });
 
-// Show/hide the quality slider based on output format selection
+// Show or hide the quality slider based on output format selection
 outputFormatSelect.addEventListener('change', () => {
   const selectedFormat = outputFormatSelect.value;
   qualityContainer.style.display =
@@ -28,6 +30,8 @@ fileInput.addEventListener('change', () => {
   downloadLink.style.display = 'none';
   downloadLink.href = '';
   downloadLink.textContent = 'Download Converted File';
+  // Hide any existing alert
+  conversionAlert.classList.add('d-none');
 });
 
 // Helper: get file extension from filename
@@ -83,7 +87,7 @@ function convertTIFF(file, selectedFormat, quality) {
   });
 }
 
-// Convert PSD using psd.js (outputs a PNG data URL)
+// Convert PSD using psd.js
 function convertPSD(file, selectedFormat, quality) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -112,7 +116,7 @@ function convertPSD(file, selectedFormat, quality) {
   });
 }
 
-// Convert ICO using icojs (choosing the largest available icon)
+// Convert ICO using icojs
 function convertICO(file, selectedFormat, quality) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -141,7 +145,7 @@ function convertICO(file, selectedFormat, quality) {
   });
 }
 
-// Convert PDF using pdf.js by converting all pages.
+// Convert PDF using pdf.js (all pages)
 function convertPDF(file, selectedFormat, quality) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -179,7 +183,7 @@ function convertPDF(file, selectedFormat, quality) {
   });
 }
 
-// General conversion function: returns an array of conversion results.
+// Master conversion function
 async function convertFile(file, selectedFormat, quality) {
   const ext = getFileExtension(file.name);
   let results = [];
@@ -203,134 +207,145 @@ async function convertFile(file, selectedFormat, quality) {
   return results;
 }
 
-// Handle conversion when the Convert button is clicked.
+// Convert button click handler
 convertButton.addEventListener('click', async () => {
+  // Reset UI
   conversionResults.innerHTML = '';
   downloadLink.style.display = 'none';
   downloadLink.href = '';
+  conversionAlert.classList.add('d-none');
+
+  // Show spinner
+  conversionSpinner.style.display = 'inline-flex';
 
   const files = fileInput.files;
   const selectedFormat = outputFormatSelect.value;
   const quality = parseFloat(qualitySlider.value);
 
-  if (files.length === 1) {
-    try {
+  try {
+    if (files.length === 1) {
       const file = files[0];
       const results = await convertFile(file, selectedFormat, quality);
-      
-      let newExtension = '';
-      if (selectedFormat === 'image/jpeg') newExtension = '.jpeg';
-      else if (selectedFormat === 'image/png') newExtension = '.png';
-      else if (selectedFormat === 'image/webp') newExtension = '.webp';
-      
-      let originalName = file.name;
-      let baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
-      
-      if (results.length === 1) {
-        let newFileName = baseName + newExtension;
-        const resultDiv = document.createElement('div');
-        resultDiv.className = 'result-item';
-        const previewImg = document.createElement('img');
-        previewImg.src = results[0].dataURL;
-        previewImg.alt = newFileName;
-        const fileNameText = document.createElement('p');
-        fileNameText.textContent = newFileName;
-        resultDiv.appendChild(previewImg);
-        resultDiv.appendChild(fileNameText);
-        conversionResults.appendChild(resultDiv);
-        
-        downloadLink.href = results[0].dataURL;
-        downloadLink.download = newFileName;
-        downloadLink.style.display = 'inline';
-        downloadLink.textContent = 'Download ' + newFileName;
-      } else {
-        // Multiple images (e.g. multi-page PDF) --> ZIP them.
-        let zip = new JSZip();
-        results.forEach(item => {
-          let newFileName = baseName + '_page' + item.pageNumber + newExtension;
-          const base64Data = item.dataURL.split(',')[1];
-          zip.file(newFileName, base64Data, { base64: true });
-          const resultDiv = document.createElement('div');
-          resultDiv.className = 'result-item';
-          const previewImg = document.createElement('img');
-          previewImg.src = item.dataURL;
-          previewImg.alt = newFileName;
-          const fileNameText = document.createElement('p');
-          fileNameText.textContent = newFileName;
-          resultDiv.appendChild(previewImg);
-          resultDiv.appendChild(fileNameText);
-          conversionResults.appendChild(resultDiv);
-        });
-        zip.generateAsync({ type: 'blob' }).then(content => {
-          const zipUrl = URL.createObjectURL(content);
-          downloadLink.href = zipUrl;
-          downloadLink.download = baseName + '_converted.zip';
-          downloadLink.style.display = 'inline';
-          downloadLink.textContent = 'Download ZIP of Converted Pages';
-        });
-      }
-    } catch (error) {
-      alert('Error converting file: ' + error.message);
+      handleSingleFileResult(file, results, selectedFormat);
+    } else {
+      await handleMultipleFilesResult(files, selectedFormat, quality);
     }
-  } else if (files.length > 1) {
-    let zip = new JSZip();
-    let conversionPromises = [];
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      let promise = convertFile(file, selectedFormat, quality)
-        .then(results => {
-          let newExtension = '';
-          if (selectedFormat === 'image/jpeg') newExtension = '.jpeg';
-          else if (selectedFormat === 'image/png') newExtension = '.png';
-          else if (selectedFormat === 'image/webp') newExtension = '.webp';
-          
-          let originalName = file.name;
-          let baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
-          
-          if (results.length === 1) {
-            let newFileName = baseName + newExtension;
-            const base64Data = results[0].dataURL.split(',')[1];
-            zip.file(newFileName, base64Data, { base64: true });
-            const resultDiv = document.createElement('div');
-            resultDiv.className = 'result-item';
-            const previewImg = document.createElement('img');
-            previewImg.src = results[0].dataURL;
-            previewImg.alt = newFileName;
-            const fileNameText = document.createElement('p');
-            fileNameText.textContent = newFileName;
-            resultDiv.appendChild(previewImg);
-            resultDiv.appendChild(fileNameText);
-            conversionResults.appendChild(resultDiv);
-          } else {
-            results.forEach(item => {
-              let newFileName = baseName + '_page' + item.pageNumber + newExtension;
-              const base64Data = item.dataURL.split(',')[1];
-              zip.file(newFileName, base64Data, { base64: true });
-              const resultDiv = document.createElement('div');
-              resultDiv.className = 'result-item';
-              const previewImg = document.createElement('img');
-              previewImg.src = item.dataURL;
-              previewImg.alt = newFileName;
-              const fileNameText = document.createElement('p');
-              fileNameText.textContent = newFileName;
-              resultDiv.appendChild(previewImg);
-              resultDiv.appendChild(fileNameText);
-              conversionResults.appendChild(resultDiv);
-            });
-          }
-        })
-        .catch(error => {
-          alert('Error converting file ' + file.name + ': ' + error.message);
-        });
-      conversionPromises.push(promise);
-    }
-    await Promise.all(conversionPromises);
-    zip.generateAsync({ type: 'blob' }).then(content => {
-      const zipUrl = URL.createObjectURL(content);
-      downloadLink.href = zipUrl;
-      downloadLink.download = 'converted_images.zip';
-      downloadLink.style.display = 'inline';
-      downloadLink.textContent = 'Download ZIP of Converted Images';
-    });
+    // Show success alert
+    conversionAlert.classList.remove('d-none');
+  } catch (error) {
+    alert('Error converting files: ' + error.message);
+  } finally {
+    // Hide spinner
+    conversionSpinner.style.display = 'none';
   }
 });
+
+function handleSingleFileResult(file, results, selectedFormat) {
+  let newExtension = getExtensionByFormat(selectedFormat);
+  let originalName = file.name;
+  let baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
+
+  if (results.length === 1) {
+    // Single page or single image
+    let newFileName = baseName + newExtension;
+    showPreview(results[0], newFileName);
+    downloadLink.href = results[0].dataURL;
+    downloadLink.download = newFileName;
+    downloadLink.style.display = 'inline-block';
+    downloadLink.textContent = 'Download ' + newFileName;
+  } else {
+    // Multi-page PDF
+    zipMultipleResults(results, baseName, newExtension);
+  }
+}
+
+async function handleMultipleFilesResult(files, selectedFormat, quality) {
+  let zip = new JSZip();
+  let conversionPromises = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const promise = convertFile(file, selectedFormat, quality)
+      .then(results => {
+        let newExtension = getExtensionByFormat(selectedFormat);
+        let originalName = file.name;
+        let baseName = originalName.substring(0, originalName.lastIndexOf('.')) || originalName;
+        if (results.length === 1) {
+          let newFileName = baseName + newExtension;
+          const base64Data = results[0].dataURL.split(',')[1];
+          zip.file(newFileName, base64Data, { base64: true });
+          showPreview(results[0], newFileName);
+        } else {
+          // Multi-page PDF or multi-result scenario
+          results.forEach(item => {
+            let newFileName = baseName + '_page' + item.pageNumber + newExtension;
+            const base64Data = item.dataURL.split(',')[1];
+            zip.file(newFileName, base64Data, { base64: true });
+            showPreview(item, newFileName);
+          });
+        }
+      })
+      .catch(error => {
+        throw new Error('Error converting file ' + file.name + ': ' + error.message);
+      });
+    conversionPromises.push(promise);
+  }
+
+  await Promise.all(conversionPromises);
+  let content = await zip.generateAsync({ type: 'blob' });
+  let zipUrl = URL.createObjectURL(content);
+  downloadLink.href = zipUrl;
+  downloadLink.download = 'converted_images.zip';
+  downloadLink.style.display = 'inline-block';
+  downloadLink.textContent = 'Download ZIP of Converted Images';
+}
+
+// Utility to get extension by format
+function getExtensionByFormat(format) {
+  if (format === 'image/jpeg') return '.jpeg';
+  if (format === 'image/png') return '.png';
+  if (format === 'image/webp') return '.webp';
+  return '.img';
+}
+
+// Create a preview in the grid
+function showPreview(result, fileName) {
+  // result => { dataURL, pageNumber, width, height }
+  let colDiv = document.createElement('div');
+  colDiv.className = 'col-sm-6 col-md-4 col-lg-3';
+
+  let resultItem = document.createElement('div');
+  resultItem.className = 'result-item h-100 d-flex flex-column justify-content-center';
+
+  let img = document.createElement('img');
+  img.src = result.dataURL;
+  img.alt = fileName;
+
+  let p = document.createElement('p');
+  p.textContent = fileName;
+  p.className = 'mt-2 mb-0 text-truncate';
+
+  resultItem.appendChild(img);
+  resultItem.appendChild(p);
+  colDiv.appendChild(resultItem);
+
+  conversionResults.appendChild(colDiv);
+}
+
+// Zip multi-page results
+function zipMultipleResults(results, baseName, newExtension) {
+  let zip = new JSZip();
+  results.forEach(item => {
+    let newFileName = baseName + '_page' + item.pageNumber + newExtension;
+    const base64Data = item.dataURL.split(',')[1];
+    zip.file(newFileName, base64Data, { base64: true });
+    showPreview(item, newFileName);
+  });
+  zip.generateAsync({ type: 'blob' }).then(content => {
+    let zipUrl = URL.createObjectURL(content);
+    downloadLink.href = zipUrl;
+    downloadLink.download = baseName + '_converted.zip';
+    downloadLink.style.display = 'inline-block';
+    downloadLink.textContent = 'Download ZIP of Converted Pages';
+  });
+}

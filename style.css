@@ -1,136 +1,71 @@
-/* Reset & Global Styles */
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    background: #121212;
-    color: #e0e0e0;
-  }
-  
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Header */
-  header {
-    text-align: center;
-    padding: 20px 0;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #333, #555);
-    color: #e0e0e0;
-    border-radius: 8px;
-  }
-  
-  header h1 {
-    margin: 0;
-    font-size: 2em;
-    font-weight: 600;
-  }
-  
-  header p {
-    margin-top: 10px;
-    font-size: 1.1em;
-  }
-  
-  /* Form Section */
-  .input-section {
-    background: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #e0e0e0;
-  }
-  
-  input[type="file"],
-  select,
-  input[type="range"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #444;
-    border-radius: 4px;
-    background: #2e2e2e;
-    color: #e0e0e0;
-  }
-  
-  button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #3a8ee6;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.3s ease;
-  }
-  
-  button:disabled {
-    background: #555;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background: #3274c6;
-  }
-  
-  /* Results Section */
-  .results-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-  }
-  
-  .result-item {
-    background: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  }
-  
-  .result-item img {
-    max-width: 150px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-  
-  /* Download Section */
-  .download-section {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  #downloadLink {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #3a8ee6;
-    color: #fff;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.3s ease;
-  }
-  
-  #downloadLink:hover {
-    background: #3274c6;
-  }
-  
+/* Global & Bootstrap Overrides */
+body {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  background: #121212;
+  color: #e0e0e0;
+}
+
+a {
+  color: #3a8ee6;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Dark Card Overrides */
+.card.bg-dark {
+  background: #1e1e1e;
+  border: 1px solid #333;
+}
+.form-control, .form-select, .form-range {
+  background: #2e2e2e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+.btn-primary {
+  background-color: #3a8ee6;
+  border-color: #3a8ee6;
+}
+.btn-primary:hover {
+  background-color: #3274c6;
+  border-color: #3274c6;
+}
+.btn-success {
+  background-color: #4caf50;
+  border-color: #4caf50;
+}
+.btn-success:hover {
+  background-color: #449d48;
+  border-color: #449d48;
+}
+
+/* Dark Alert Overrides */
+.alert-success {
+  background-color: #1c3c1f;
+  border-color: #25582c;
+  color: #c7f2ca;
+}
+.alert-success .btn-close {
+  filter: invert(100%);
+}
+
+/* Conversion Results */
+#conversionResults .result-item {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+#conversionResults .result-item img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+  color: #aaa;
+  font-size: 0.9em;
+}

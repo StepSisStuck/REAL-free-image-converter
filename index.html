@@ -2,56 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Add viewport meta tag for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Advanced Image Converter</title>
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
   <link rel="stylesheet" href="style.css">
-  <!-- Google Font -->
- </head>
+</head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Advanced Image Converter</h1>
-      <p>
-        Convert images between formats including PNG, JPEG, WEBP, TIFF, PSD, ICO, and PDF (all pages).
+  <div class="container py-4">
+    <header class="mb-4 text-center">
+      <h1 class="display-5 fw-semibold">Advanced Image Converter</h1>
+      <p class="lead mb-0">
+        Convert images between formats including PNG, JPEG, WEBP, TIFF, PSD, ICO, and multi-page PDF.
       </p>
     </header>
-  
-    <main>
-      <section class="input-section">
-        <div class="form-group">
-          <label for="fileInput">Select image files:</label>
-          <input type="file" id="fileInput" accept="image/*,.tif,.tiff,.psd,.ico,.pdf" multiple>
-        </div>
-  
-        <div class="form-group">
-          <label for="outputFormat">Output Format:</label>
-          <select id="outputFormat">
-            <option value="image/jpeg">JPEG</option>
-            <option value="image/png">PNG</option>
-            <option value="image/webp">WEBP</option>
-          </select>
-        </div>
-  
-        <div class="form-group" id="qualityContainer">
-          <label for="qualitySlider">
-            Quality (for JPEG/WEBP): <span id="qualityValue">0.8</span>
-          </label>
-          <input type="range" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.8">
-        </div>
-  
-        <button id="convertButton" disabled>Convert Images</button>
-      </section>
-  
-      <section id="conversionResults" class="results-section"></section>
-  
-      <section class="download-section">
-        <a id="downloadLink" style="display: none;">Download Converted File</a>
-      </section>
-    </main>
+
+    <!-- Conversion Form -->
+    <div class="card bg-dark text-light mb-4">
+      <div class="card-body">
+        <form id="converterForm">
+          <div class="mb-3">
+            <label for="fileInput" class="form-label fw-semibold">Select image files</label>
+            <input
+              type="file"
+              class="form-control"
+              id="fileInput"
+              accept="image/*,.tif,.tiff,.psd,.ico,.pdf"
+              multiple
+            >
+            <small class="text-muted">You can select multiple files, including PDFs.</small>
+          </div>
+
+          <div class="mb-3">
+            <label for="outputFormat" class="form-label fw-semibold">Output Format</label>
+            <select class="form-select" id="outputFormat">
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WEBP</option>
+            </select>
+          </div>
+
+          <div class="mb-3" id="qualityContainer">
+            <label for="qualitySlider" class="form-label fw-semibold">
+              Quality (for JPEG/WEBP): <span id="qualityValue">0.8</span>
+            </label>
+            <input
+              type="range"
+              class="form-range"
+              id="qualitySlider"
+              min="0.1"
+              max="1"
+              step="0.1"
+              value="0.8"
+            >
+            <small class="text-muted">Higher = better quality, bigger file size.</small>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="convertButton"
+            disabled
+          >
+            Convert Images
+          </button>
+
+          <!-- Spinner & Progress Feedback -->
+          <div class="mt-3" id="conversionSpinner" style="display: none;">
+            <div class="spinner-border text-info" role="status">
+              <span class="visually-hidden">Converting...</span>
+            </div>
+            <span class="ms-2">Conversion in progress...</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Alert for conversion complete -->
+    <div
+      class="alert alert-success alert-dismissible fade show d-none"
+      role="alert"
+      id="conversionAlert"
+    >
+      Conversion complete!
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <!-- Conversion Results Grid -->
+    <div id="conversionResults" class="row g-3"></div>
+
+    <!-- Download Link -->
+    <div class="text-center my-4">
+      <a
+        id="downloadLink"
+        class="btn btn-success"
+        style="display: none;"
+      >
+        Download Converted File
+      </a>
+    </div>
+
+    <footer class="text-center mt-4 pt-3 border-top">
+      <p class="mb-1">
+        Having issue's?
+        <a
+          href="https://github.com/StepSisStuck/free-image-converter/issues"
+          target="_blank"
+        >
+          Submit an issue
+        </a>
+      </p>
+      <p class="mb-0">&copy; 2025 StepSisStuck</p>
+    </footer>
   </div>
-  
+
   <!-- Hidden canvas for processing -->
   <canvas id="canvas" style="display: none;"></canvas>
-  
+
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://unpkg.com/utif@2.0.1/UTIF.min.js"></script>
@@ -60,10 +136,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>
     // Configure pdf.js worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
   </script>
-  
+
   <!-- Main Script -->
   <script src="script.js"></script>
+  <!-- Bootstrap JS Bundle -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  ></script>
 </body>
 </html>
