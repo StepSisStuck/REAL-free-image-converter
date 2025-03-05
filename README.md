@@ -69,6 +69,20 @@ If you have an idea or notice something that could be improved, please [submit a
 
 This project is released under the APACHE 2.0 License.
 
+
+## Example of SUSPICIOUS "Free Online Converter"
+1. We HAVE A TOS???
+![image](https://github.com/user-attachments/assets/e6f60d48-0c99-4216-8c47-f68b57a1845f)
+
+2. Bunch of Advertisements + ("Images are uploaded securely,
+never shared with 3rd parties,
+and deleted permanently once
+the download link expires
+(after 24 hours)"
+![image](https://github.com/user-attachments/assets/2d3e00dc-da73-4696-aba2-0db19c883c85)
+
+
+
 ---
 
 &copy; 2025 StepSisStuck
