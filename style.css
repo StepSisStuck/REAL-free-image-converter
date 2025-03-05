@@ -1,63 +1,131 @@
-/* Global & Bootstrap Overrides */
+/* Global & Bootstrap Overrides for Cream Theme */
 body {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  background: #121212;
-  color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f4ef; /* Cream off-white background */
+  color: #333333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #3a8ee6;
-}
-a:hover {
-  text-decoration: underline;
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Dark Card Overrides */
-.card.bg-dark {
-  background: #1e1e1e;
-  border: 1px solid #333;
+/* Header */
+header {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  background: #fffaf5; /* Slightly warmer cream tone */
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
-.form-control, .form-select, .form-range {
-  background: #2e2e2e;
-  color: #e0e0e0;
-  border: 1px solid #444;
+
+header h1 {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0;
+  color: #111111;
 }
+
+header p {
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+
+/* Card (Conversion Form) */
+.card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Form Elements */
+.form-label {
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  background: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
+}
+
+/* Custom Styling for Range Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #3e3030;
+  border-radius: 5px;
+  outline: none;
+  margin: 0;
+}
+
+/* For WebKit browsers */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007aff;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  margin-top: -6px; /* Adjusts for track height */
+}
+
+/* For Firefox */
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #007aff;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+}
+
+/* Buttons */
 .btn-primary {
-  background-color: #3a8ee6;
-  border-color: #3a8ee6;
-}
-.btn-primary:hover {
-  background-color: #3274c6;
-  border-color: #3274c6;
-}
-.btn-success {
-  background-color: #4caf50;
-  border-color: #4caf50;
-}
-.btn-success:hover {
-  background-color: #449d48;
-  border-color: #449d48;
+  background-color: #007aff;
+  border-color: #007aff;
 }
 
-/* Dark Alert Overrides */
-.alert-success {
-  background-color: #1c3c1f;
-  border-color: #25582c;
-  color: #c7f2ca;
+.btn-primary:hover {
+  background-color: #006ae6;
+  border-color: #006ae6;
 }
-.alert-success .btn-close {
-  filter: invert(100%);
+
+.btn-success {
+  background-color: #34c759;
+  border-color: #34c759;
+}
+
+.btn-success:hover {
+  background-color: #30b254;
+  border-color: #30b254;
 }
 
 /* Conversion Results */
 #conversionResults .result-item {
-  background: #1e1e1e;
-  border: 1px solid #333;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+
 #conversionResults .result-item img {
   max-width: 100%;
   border-radius: 4px;
@@ -66,6 +134,18 @@ a:hover {
 
 /* Footer */
 footer {
-  color: #aaa;
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  color: #666666;
   font-size: 0.9em;
+}
+
+footer a {
+  color: #007aff;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }

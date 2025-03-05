@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Add viewport meta tag for mobile responsiveness -->
+  <!-- Ensures proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Advanced Image Converter</title>
   <!-- Bootstrap CSS -->
@@ -17,12 +17,14 @@
     <header class="mb-4 text-center">
       <h1 class="display-5 fw-semibold">Advanced Image Converter</h1>
       <p class="lead mb-0">
-        Convert images between formats including PNG, JPEG, WEBP, TIFF, PSD, ICO, and multi-page PDF.
+        Convert images between formats including <br>
+        
+        PNG, JPEG, WEBP, TIFF, PSD, ICO, and multi-page PDF.
       </p>
     </header>
 
     <!-- Conversion Form -->
-    <div class="card bg-dark text-light mb-4">
+    <div class="card mb-4">
       <div class="card-body">
         <form id="converterForm">
           <div class="mb-3">
@@ -73,7 +75,7 @@
 
           <!-- Spinner & Progress Feedback -->
           <div class="mt-3" id="conversionSpinner" style="display: none;">
-            <div class="spinner-border text-info" role="status">
+            <div class="spinner-border text-primary" role="status">
               <span class="visually-hidden">Converting...</span>
             </div>
             <span class="ms-2">Conversion in progress...</span>
