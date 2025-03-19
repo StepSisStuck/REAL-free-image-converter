@@ -1,5 +1,7 @@
 # [REAL Free Image Converter](https://stepsisstuck.github.io/REAL-free-image-converter/)
 
+
+## p.s btw im still building this and im quite bz so just chill with da bugs
 Sometimes you just need to convert a file (like a TIFF to PNG) without all the hassle—especially when converting websites hide behind paywalls or claim to delete your files, leaving you wondering: "How sure are you?" This project was born out of frustration with these sketchy setups.
 
 
