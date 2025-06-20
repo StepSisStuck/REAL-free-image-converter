@@ -157,7 +157,10 @@
   <!-- External Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://unpkg.com/utif@2.0.1/UTIF.min.js"></script>
-  <script src="https://unpkg.com/psd.js@3.0.0/dist/psd.min.js"></script>
+  <script type="module">
+    import PSD from 'https://unpkg.com/psd.js@3.9.1/dist/index.mjs';
+    window.PSD = PSD;
+  </script>
   <script src="https://unpkg.com/icojs@1.0.0/dist/ico.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>
